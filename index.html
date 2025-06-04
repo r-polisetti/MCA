@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Countdown from JSON File</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .event-list {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 15px;
+      width: 260px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: background-color 0.3s ease;
+    }
+
+    .event-card.ended {
+      background-color: #fff1f1;
+      border: 2px solid #ff4d4d;
+    }
+
+    .event-card h3 {
+      margin: 0 0 5px;
+    }
+
+    .event-card .desc {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .event-card .timer {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Countdown Events</h1>
+
+  <div class="event-list" id="eventList">
+    Loading events...
+  </div>
+
+  <script>
+    const eventList = document.getElementById('eventList');
+    let countdowns = [];
+
+    function createCountdown(event) {
+      const now = new Date();
+      const timeDiff = new Date(event.date) - now;
+
+      if (timeDiff <= 0) {
+        event.timerElement.textContent = "🎉 Event started!";
+        event.cardElement.classList.add("ended");
+        return;
+      }
+
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeDiff / 1000) % 60);
+
+      event.timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    async function loadEvents() {
+      try {
+        const response = await fetch('./events.json');
+        if (!response.ok) throw new Error('Failed to load events.json');
+        const events = await response.json();
+
+        eventList.innerHTML = ''; // clear loading text
+
+        events.forEach(ev => {
+          const card = document.createElement('div');
+          card.className = 'event-card';
+
+          const title = document.createElement('h3');
+          title.textContent = ev.name;
+
+          const desc = document.createElement('div');
+          desc.className = 'desc';
+          desc.textContent = ev.description || '';
+
+          const timerText = document.createElement('div');
+          timerText.className = 'timer';
+
+          card.appendChild(title);
+          if (ev.description) card.appendChild(desc);
+          card.appendChild(timerText);
+          eventList.appendChild(card);
+
+          const countdownObj = {
+            date: ev.date,
+            cardElement: card,
+            timerElement: timerText
+          };
+
+          countdowns.push(countdownObj);
+          createCountdown(countdownObj); // initial render
+        });
+
+        // Update countdowns every second
+        setInterval(() => {
+          countdowns.forEach(createCountdown);
+        }, 1000);
+
+      } catch (error) {
+        eventList.textContent = 'Error loading events. Make sure events.json is present.';
+        console.error(error);
+      }
+    }
+
+    loadEvents();
+  </script>
+
+</body>
+</html>
