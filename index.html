@@ -243,11 +243,23 @@
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 
+  // Helper to parse date string safely (ensure time is included)
+  function parseEventDate(dateStr) {
+    // If date string includes 'T', parse as is.
+    // Else add 'T00:00:00' to assume midnight local time.
+    if (dateStr.includes('T')) {
+      return new Date(dateStr);
+    } else {
+      return new Date(dateStr + 'T00:00:00');
+    }
+  }
+
   // Create countdown and progress bar update
   function createCountdown(event) {
     const now = new Date();
-    const eventDate = new Date(event.date);
-    const totalDuration = eventDate - event.startDate;
+    const eventDate = parseEventDate(event.date);
+    const startDate = event.startDate instanceof Date ? event.startDate : now;
+    const totalDuration = eventDate - startDate;
     const timeLeft = eventDate - now;
 
     if (timeLeft <= 0) {
@@ -265,16 +277,16 @@
     event.timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
     // Update progress bar (percentage time elapsed)
-    const elapsed = now - event.startDate;
+    const elapsed = now - startDate;
     let percent = (elapsed / totalDuration) * 100;
     percent = Math.min(Math.max(percent, 0), 100);
     event.progressBar.style.width = percent + "%";
   }
 
-  // Load events from JSON file
+  // Load events from JSON file with cache busting
   async function loadEvents() {
     try {
-      const response = await fetch('./events.json');
+      const response = await fetch(`./events.json?t=${Date.now()}`);
       if (!response.ok) throw new Error('Failed to load events.json');
       const eventsRaw = await response.json();
 
@@ -286,7 +298,7 @@
       eventsRaw.forEach(ev => {
         // Add a startDate for progress calculation
         // If you want, you can add "startDate" to your JSON events. Else default to now.
-        ev.startDate = ev.startDate ? new Date(ev.startDate) : now;
+        ev.startDate = ev.startDate ? parseEventDate(ev.startDate) : now;
 
         const card = document.createElement('div');
         card.className = 'event-card';
