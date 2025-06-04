@@ -275,4 +275,91 @@
   async function loadEvents() {
     try {
       const response = await fetch('./events.json');
-      if (!response
+      if (!response.ok) throw new Error('Failed to load events.json');
+      const eventsRaw = await response.json();
+
+      eventList.innerHTML = ''; // clear loading text
+      countdowns = [];
+
+      const now = new Date();
+
+      eventsRaw.forEach(ev => {
+        // Add a startDate for progress calculation
+        // If you want, you can add "startDate" to your JSON events. Else default to now.
+        ev.startDate = ev.startDate ? new Date(ev.startDate) : now;
+
+        const card = document.createElement('div');
+        card.className = 'event-card';
+
+        const title = document.createElement('h3');
+        title.textContent = ev.name;
+
+        const desc = document.createElement('div');
+        desc.className = 'desc';
+        desc.textContent = ev.description || '';
+
+        const timerText = document.createElement('div');
+        timerText.className = 'timer';
+
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
+
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+
+        progressContainer.appendChild(progressBar);
+
+        card.appendChild(title);
+        if (ev.description) card.appendChild(desc);
+        card.appendChild(timerText);
+        card.appendChild(progressContainer);
+
+        eventList.appendChild(card);
+
+        countdowns.push({
+          date: ev.date,
+          startDate: ev.startDate,
+          cardElement: card,
+          timerElement: timerText,
+          progressBar: progressBar
+        });
+
+        createCountdown(countdowns[countdowns.length - 1]); // initial render
+      });
+
+      // Update countdowns every second with animation
+      setInterval(() => {
+        countdowns.forEach(createCountdown);
+      }, 1000);
+
+    } catch (error) {
+      eventList.textContent = 'Error loading events. Make sure events.json is present.';
+      console.error(error);
+    }
+  }
+
+  // Motivational quotes array
+  const quotes = [
+    "The best way to get started is to quit talking and begin doing. – Walt Disney",
+    "Don’t let yesterday take up too much of today. – Will Rogers",
+    "It’s not whether you get knocked down, it’s whether you get up. – Vince Lombardi",
+    "If you are working on something exciting, it will keep you motivated. – Elon Musk",
+    "Success is not in what you have, but who you are. – Bo Bennett",
+    "The harder you work for something, the greater you’ll feel when you achieve it.",
+    "Dream it. Wish it. Do it.",
+    "Stay positive, work hard, make it happen."
+  ];
+
+  // Show random quote
+  function showRandomQuote() {
+    const idx = Math.floor(Math.random() * quotes.length);
+    quoteContainer.textContent = quotes[idx];
+  }
+
+  showRandomQuote();
+
+  loadEvents();
+</script>
+
+</body>
+</html>
