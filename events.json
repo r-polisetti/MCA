@@ -1,13 +1,18 @@
 [
-    {
-      "name": "ACE Exam",
-      "date": "2025-12-07T13:00:00",
-      "description": "ACE Certification Exam!"
-    },
-    {
-      "name": "Project Deadline",
-      "date": "2025-07-20T23:59:00",
-      "description": "Submit final report."
-    }
-  ]
-  
+  {
+    "name": "Office Party",
+    "date": "2025-08-01T18:00:00",
+    "startDate": "2025-07-15T09:00:00",
+    "description": "Annual office celebration!"
+  },
+  {
+    "name": "Project Deadline",
+    "date": "2025-06-12",
+    "description": "Submit final report."
+  },
+  {
+    "name": "ACE",
+    "date": "2025-06-12",
+    "description": "ACE Cerification Exam!"
+  },
+]
