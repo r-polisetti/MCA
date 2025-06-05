@@ -48,7 +48,7 @@ Add events in this format:
   }
 ]
 ```
-date must be in full ISO format (e.g. YYYY-MM-DDTHH:mm:ss)
+Date must be in full ISO format (e.g. YYYY-MM-DDTHH:mm:ss)
 startDate is optional — if not given, current time is used.
 
 ---
