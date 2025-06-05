@@ -25,8 +25,8 @@ A clean, customizable, and real-time countdown timer web app — perfect for tra
 
 ## 🖼️ Screenshots
 
- ![Webpage](preview-light.png) 
- ![Notification](preview-dark.png)
+ ![Webpage](/web-page.png) 
+ ![Notification](notif.jpeg)
 
 ---
 
