@@ -1,0 +1,29 @@
+name: Daily Telegram Countdown Notification
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Every day at 6 AM UTC (adjust as needed)
+  workflow_dispatch:     # Manual trigger option
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send Telegram Message
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python send_notification.py
