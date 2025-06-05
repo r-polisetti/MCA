@@ -1,24 +1,32 @@
 # ⏳ Countdown Events App
 
-A minimal, and customizable countdown timer web app — perfect for tracking important events, milestones, or launches.
+A clean, customizable, and real-time countdown timer web app — perfect for tracking personal events, launches, or important milestones.
 
-> Live Demo: [Click here to try it out 🚀](https://r-polisetti.github.io/MCA/)
+> 🚀 **Live Demo**: [Click here to try it out](https://r-polisetti.github.io/MCA/)
 
 ---
 
 ## ✨ Features
 
-- ✅ **Multiple countdowns** with titles and descriptions
+- ✅ **Multiple countdowns** with title, description, and custom start dates
 - 🌗 **Dark mode toggle** (remembers your preference)
-- 📊 **Live countdown** showing days, hours, minutes, and seconds
-- 📈 **Progress bar** showing how far along each event is
-- 🎨 **Color-coded event tiles**:
-  - 🟢 Green: Plenty of time left
-  - 🟡 Yellow: Halfway
-  - 🔴 Red: Almost there!
-- 💡 **Rotating motivational quotes**
-- 🎉 Auto-updates every second
-- 💾 Lightweight and **deployed using GitHub Pages**
+- 📆 **Live countdowns** showing days, hours, minutes, seconds
+- 📊 **Animated progress bar** showing event progress
+- 🎨 **Color-coded cards**:
+  - 🟢 Green – Plenty of time left
+  - 🟡 Yellow – Halfway there
+  - 🔴 Red – Approaching fast!
+- 🔁 **Auto-updates every second**
+- 💬 **Rotating motivational quotes**
+- 📩 **Telegram notifications** (optional feature via GitHub Actions)
+- 💾 **Deployed via GitHub Pages** — no backend required
+
+---
+
+## 🖼️ Screenshots
+
+ ![Webpage](preview-light.png) 
+ ![Notification](preview-dark.png)
 
 ---
 
@@ -26,10 +34,13 @@ A minimal, and customizable countdown timer web app — perfect for tracking imp
 
 ```plaintext
 modc.github.io/
-├── index.html          # Main app UI and logic
-├── events.json         # Editable list of your events
-├── preview.png         # (Optional) Social share image
-└── README.md           # You're reading it!
+├── index.html          # Main app logic + UI
+├── events.json         # Your event data
+├── send_notification.py # Telegram notifier script (optional)
+├── .github/workflows/
+│   └── notify.yml      # GitHub Action for daily Telegram messages
+├── preview.png         # (Optional) App preview image
+└── README.md
 ```
 ---
 
@@ -77,6 +88,29 @@ Done! Your site will be live at:
 ```php-template
 https://<your-username>.github.io/<repo-name>
 ```
+---
+
+##🔔 Optional: Daily Telegram Notifications
+Want daily reminders sent to Telegram?
+
+Add your events to events.json
+
+Set up secrets TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID
+
+GitHub Actions will send a summary every morning 🎯
+
+See send_notification.py and .github/workflows/notify.yml
+
+---
+
+##📒 Changelog [v1.0] – 2025-06-04
+
+Initial version launched
+
+* Countdown with color-coded status
+* Live dark mode, quotes, progress bar
+* GitHub Actions + Telegram notifications
+
 ---
 
 ## 🧠 Credits & Inspiration
