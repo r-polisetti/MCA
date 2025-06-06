@@ -2,7 +2,7 @@ name: Daily Telegram Countdown Notification
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Every day at 6 AM UTC (adjust as needed)
+    - cron: '30 4 * * *'  # Every day at 10 AM IST (adjust as needed)
   workflow_dispatch:     # Manual trigger option
 
 jobs:
