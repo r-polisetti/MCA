@@ -1,14 +1,14 @@
 [
   {
-    "name": "Finish Resume",
-    "description": "Deadline: Sunday",
-    "date": "2025-07-06",
+    "name": "OCI Architect Assosiate Exam",
+    "description": "Deadline: OCT 31",
+    "date": "2025-09-27",
     "startDate": "2025-07-01"
   },
   {
-    "name": "Submit Proposal",
-    "description": "Was due last week",
-    "date": "2025-06-28",
-    "startDate": "2025-06-15"
+    "name": "AWS Sysops Admin",
+    "description": "Not Yet Decided",
+    "date": "2025-08-31",
+    "startDate": "2025-07-01"
   }
 ]
