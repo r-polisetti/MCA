@@ -1,4 +1,4 @@
-import os  # Add this line
+import os
 import requests, json
 from datetime import datetime
 
@@ -6,25 +6,26 @@ from datetime import datetime
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-# Load events
-with open("events.json", "r") as f:
-    events = json.load(f)
+# Load goals
+with open("goals.json", "r") as f:
+    goals = json.load(f)
 
 now = datetime.now()
-summary = ["📅 Good morning! Here's your event countdown:\n"]
+summary = ["🎯 Good morning! Here's your goal countdown:\n"]
 
-for ev in events:
-    event_date = datetime.fromisoformat(ev["date"])
-    days_left = (event_date - now).days
+for goal in goals:
+    goal_date = datetime.fromisoformat(goal["date"])
+    days_left = (goal_date - now).days
 
+    # Show countdown even if it's in the past
     if days_left > 0:
-        summary.append(f"🎯 {ev['name']}: {days_left} day{'s' if days_left != 1 else ''} left")
+        summary.append(f"🚀 {goal['name']}: {days_left} day{'s' if days_left != 1 else ''} left")
     elif days_left == 0:
-        summary.append(f"🚨 TODAY is the day for: {ev['name']} 🎉")
+        summary.append(f"🔥 TODAY is the deadline for: {goal['name']}! Stay focused!")
     else:
-        summary.append(f"✅ {ev['name']} already passed")
+        summary.append(f"⏳ {goal['name']}: {-days_left} day{'s' if days_left != -1 else ''} **past** deadline")
 
-summary.append("\n🔥 Let's stay focused!")
+summary.append("\n💪 Keep pushing toward your goals!")
 message = "\n".join(summary)
 
 # Send to Telegram
