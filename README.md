@@ -6,7 +6,7 @@ A clean, customizable, and real-time countdown timer web app — perfect for tra
 
 ---
 
-## ✨ Features
+## ✨ Features #
 
 - ✅ **Multiple countdowns** with title, description, and custom start dates
 - 🌗 **Dark mode toggle** (remembers your preference)
